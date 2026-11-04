@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>عالم غيثة السحري ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #2a081a 0%, #030106 100%);
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .instruction {
+      position: absolute;
+      top: 25px;
+      width: 100%;
+      text-align: center;
+      color: #ff9ebb;
+      font-size: 15px;
+      z-index: 10;
+      letter-spacing: 1px;
+      text-shadow: 0 0 12px rgba(255, 158, 187, 0.8);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+
+    /* العقد المضيئة 3D */
+    .star-node {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #ff1654 60%, transparent 100%);
+      box-shadow: 0 0 30px #ff1654, 0 0 60px #ff70a6, inset 0 0 15px #ffffff;
+      z-index: 5;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      animation: float 3.5s ease-in-out infinite alternate;
+      transition: transform 0.2s ease;
+    }
+
+    .star-node:active {
+      transform: scale(0.85);
+    }
+
+    .star-1 { top: 18%; left: 15%; animation-delay: 0s; }
+    .star-2 { top: 38%; left: 78%; animation-delay: 1s; }
+    .star-3 { top: 62%; left: 20%; animation-delay: 2s; }
+    .star-4 { top: 78%; left: 72%; animation-delay: 0.5s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg) scale(1); }
+      100% { transform: translateY(-18px) rotate(10deg) scale(1.12); }
+    }
+
+    /* الكروت الزجاجية العالية الجودة */
+    .modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 88%;
+      max-width: 400px;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal-card {
+      background: rgba(25, 10, 25, 0.85);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 112, 166, 0.5);
+      border-radius: 28px;
+      padding: 30px 25px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 22, 84, 0.3);
+    }
+
+    .modal-header .icon {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .modal-header h2 {
+      color: #ff4d6d;
+      font-size: 22px;
+      margin-bottom: 12px;
+      text-shadow: 0 0 12px rgba(255, 77, 109, 0.7);
+    }
+
+    .modal-body p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #fce4ec;
+      margin-bottom: 24px;
+    }
+
+    .btn-next {
+      background: linear-gradient(45deg, #ff1654, #ff70a6);
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      font-size: 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 22, 84, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-next:active {
+      transform: scale(0.92);
+    }
+
+    /* الواجهة النهائية التفاعلية */
+    .final-screen {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 15;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+      width: 100%;
+    }
+
+    .final-screen.active {
+      opacity: 1;
+    }
+
+    .glowing-heart {
+      font-size: 60px;
+      margin-bottom: 10px;
+      animation: heartBeat 1.2s infinite ease-in-out;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    .neon-text {
+      font-size: 48px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-shadow: 
+        0 0 7px #fff,
+        0 0 12px #fff,
+        0 0 25px #ff1654,
+        0 0 50px #ff1654,
+        0 0 90px #ff1654;
+      margin-bottom: 12px;
+    }
+
+    .sub-text {
+      color: #ffb703;
+      font-size: 20px;
+      text-shadow: 0 0 15px rgba(255, 183, 3, 0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="instruction" id="instruct">حركي صبعك فالسما واكتشفي الأمنيات الأربعة ✨</div>
+
+  <div class="star-node star-1" onclick="openMessage(1)">🌟</div>
+  <div class="star-node star-2" onclick="openMessage(2)">💖</div>
+  <div class="star-node star-3" onclick="openMessage(3)">🌷</div>
+  <div class="star-node star-4" onclick="openMessage(4)">🎂</div>
+
+  <!-- الأمنية 1 -->
+  <div class="modal" id="modal1">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="icon">🌟</span>
+        <h2>أمنية النور</h2>
+      </div>
+      <div class="modal-body">
+        <p>كل عام وأنتِ الضوء اللي كينور أي بلاصة صدفات حضورك فيها.. ضحكتك بوحدها كافية تبدل مزاج اليوم كامل لشي حاجة زوينة! ✨</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-next" onclick="closeMessage(1)">اكتشفي الأمنية الثانية 👈</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- الأمنية 2 -->
+  <div class="modal" id="modal2">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="icon">💖</span>
+        <h2>أمنية الفرح والراحة</h2>
+      </div>
+      <div class="modal-body">
+        <p>كنتمنى ليك عام جديد مليء بفرص واعرة، وراحة بال ما تفارقكش.. صايبت ليك هاد العالم السحري حيت كتاستاهلي الأحسن ديماً! 🌹</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-next" onclick="closeMessage(2)">اكتشفي الأمنية الثالثة 👈</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- الأمنية 3 -->
+  <div class="modal" id="modal3">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="icon">🌷</span>
+        <h2>أمنية التميز والنجاح</h2>
+      </div>
+      <div class="modal-body">
+        <p>يا ربي تكون هاد السنة الجديدة بداية لكل حاجة كتحلمي بها، وتوصلي لكل أهدافك حيت الطموح والجمال اللي فيك كيشبهوا النجوم! ✨</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-next" onclick="closeMessage(3)">اكتشفي الأمنية الأخيرة 👈</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- الأمنية 4 -->
+  <div class="modal" id="modal4">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="icon">🎂</span>
+        <h2>الأمنية الكبرى</h2>
+      </div>
+      <div class="modal-body">
+        <p>سنة حلوة يا غيثة! تبقاي ديماً منورة، متميزة، وضحكتك حاضرة معانا.. وعيد ميلاد سعيد يا أغلى البشر ❤️</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-next" onclick="triggerFinal()">افتحي المفاجأة النهائية ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- النهاية بـ النيون المضيء والألعاب النارية -->
+  <div class="final-screen" id="finalScreen">
+    <div class="final-wrapper">
+      <div class="glowing-heart">💖</div>
+      <h1 class="neon-text">GHAITA</h1>
+      <p class="sub-text">عيد ميلاد سعيد يا أغلى الناس ✨</p>
+    </div>
+  </div>
+
+  <canvas id="sky"></canvas>
+
+  <script>
+    const canvas = document.getElementById('sky');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let particles = [];
+
+    class Particle {
+      constructor(x, y, isInteractive = false) {
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || Math.random() * canvas.height;
+        this.size = isInteractive ? Math.random() * 6 + 2 : Math.random() * 2.8;
+        this.speedX = isInteractive ? (Math.random() - 0.5) * 5 : (Math.random() - 0.5) * 0.4;
+        this.speedY = isInteractive ? (Math.random() - 0.5) * 5 : Math.random() * 0.8 + 0.2;
+        this.color = isInteractive ? (Math.random() > 0.5 ? '#ff1654' : '#ffb703') : '#ffffff';
+        this.life = isInteractive ? 1 : Math.random() * 0.8 + 0.2;
+        this.decay = isInteractive ? 0.018 : 0;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.y > canvas.height) this.y = 0;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+
+        if (this.decay > 0) {
+          this.life -= this.decay;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // إنشاء خلفية بكثافة عالية من النجوم
+    for (let i = 0; i < 300; i++) {
+      particles.push(new Particle());
+    }
+
+    function handleTouchOrMove(x, y) {
+      for (let i = 0; i < 5; i++) {
+        particles.push(new Particle(x, y, true));
+      }
+    }
+
+    window.addEventListener('touchmove', (e) => {
+      let touch = e.touches[0];
+      handleTouchOrMove(touch.clientX, touch.clientY);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      handleTouchOrMove(e.clientX, e.clientY);
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        if (particles[i].life <= 0) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    function openMessage(id) {
+      document.getElementById('modal' + id).classList.add('active');
+    }
+
+    function closeMessage(id) {
+      document.getElementById('modal' + id).classList.remove('active');
+    }
+
+    function triggerFinal() {
+      closeMessage(4);
+      document.querySelectorAll('.star-node').forEach(el => el.style.display = 'none');
+      document.getElementById('instruct').style.display = 'none';
+      document.getElementById('finalScreen').classList.add('active');
+
+      // إطلاق ألعاب نارية مستمرة مكثفة في الخلفية
+      setInterval(() => {
+        for (let i = 0; i < 25; i++) {
+          particles.push(new Particle(
+            Math.random() * canvas.width, 
+            Math.random() * canvas.height, 
+            true
+          ));
+        }
+      }, 120);
+    }
+  </script>
+</body>
+</html>
